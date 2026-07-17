@@ -82,7 +82,7 @@ def parse_args():
 
     # Stage 2: modular PSF / observation operator options.
     # `fits` is the intended option for actual HSC/HST PSF kernels.
-    parser.add_argument("--psf-type", type=str, default="gaussian",
+    parser.add_argument("--psf-type", type=str, default="fits",
                         choices=["none", "gaussian", "moffat", "empirical", "fits"],
                         help="PSF model applied before LR re-degradation")
     parser.add_argument("--psf-fwhm-arcsec", type=float, default=0.16,
