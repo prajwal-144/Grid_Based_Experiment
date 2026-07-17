@@ -1,0 +1,40 @@
+{
+  "train": [
+    {
+      "epoch": 1,
+      "loss_image": 0.03730853064917028,
+      "loss_mu": 0.2835319936275482,
+      "loss_source": 0.04133559204638004,
+      "loss_src_cons": 0.24412158131599426,
+      "loss_src_cons_cycle": 0.23562061041593552,
+      "loss_src_cons_variance": 0.008500972529873252,
+      "loss_total": 0.08043179661035538,
+      "loss_vdl": 8.856454333290458,
+      "metric_flux_lr": 16.042973518371582,
+      "metric_flux_source": 40.04229927062988,
+      "metric_lr_redegradation": 11.401002287864685,
+      "metric_multi_image_fraction": 0.64892578125,
+      "metric_source_consistency": 297.9974670410156,
+      "physics_ramp": 0.1
+    }
+  ],
+  "val": [
+    {
+      "epoch": 1,
+      "loss_image": 0.0033095336984843016,
+      "loss_mu": 0.5078729391098022,
+      "loss_source": 0.0005487233283929527,
+      "loss_src_cons": 0.11547879129648209,
+      "loss_src_cons_cycle": 0.1100868210196495,
+      "loss_src_cons_variance": 0.005391970742493868,
+      "loss_total": 0.00545139703899622,
+      "loss_vdl": 0.30769866704940796,
+      "metric_flux_lr": 1.0273998975753784,
+      "metric_flux_source": 4.72810697555542,
+      "metric_lr_redegradation": 0.9789581894874573,
+      "metric_multi_image_fraction": 0.6489258408546448,
+      "metric_source_consistency": 5.112851619720459,
+      "physics_ramp": 0.1
+    }
+  ]
+}
