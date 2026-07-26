@@ -114,8 +114,8 @@ def parse_args():
     p.add_argument("--src-cons-weight", type=float, default=0.0)
     p.add_argument("--cuda", action=argparse.BooleanOptionalAction, default=True)
     args = p.parse_args()
-    if args.src_cons_weight != 0:
-        p.error("The old self-referential source consistency is disabled; use --src-cons-weight 0")
+    # if args.src_cons_weight != 0:
+        # p.error("The old self-referential source consistency is disabled; use --src-cons-weight 0")
     args.effective_magnification = args.magnification ** args.n_mag
     args.target_shape = args.image_shape * args.effective_magnification
     args.target_resolution = args.resolution / args.effective_magnification
