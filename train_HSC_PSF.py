@@ -217,14 +217,14 @@ if __name__ == "__main__":
     # Stage 1-2 deliberately uses the original fixed SIS lensing pipeline.
     # The SIS parameters are already encoded in these sparse matrices, so this
     # script does not instantiate the learnable Stage-3 SIS model.
-    cross_grid_to_log = torch.load("scatter_to_log_128.pt").to(args.device)
-    cross_grid_forward_from_log = torch.load("forward_from_log_128.pt").to(args.device)
-    cross_grid_from_log = torch.load("scatter_from_log_128.pt").to(args.device)
-    cross_grid_backward = torch.load("sparse_grid_fracs_euclid_backward.pt").to(args.device)
+    cross_grid_to_log = torch.load("grid_matrices/scatter_to_log_128.pt").to(args.device)
+    cross_grid_forward_from_log = torch.load("grid_matrices/forward_from_log_128.pt").to(args.device)
+    cross_grid_from_log = torch.load("grid_matrices/scatter_from_log_128.pt").to(args.device)
+    cross_grid_backward = torch.load("grid_matrices/sparse_grid_fracs_euclid_backward.pt").to(args.device)
 
     # convergence maps
-    source_convergence_map = torch.load("source_convergence_map.pt").to(args.device)
-    image_convergence_map = torch.load("image_convergence_map.pt").to(args.device)
+    source_convergence_map = torch.load("grid_matrices/source_convergence_map.pt").to(args.device)
+    image_convergence_map = torch.load("grid_matrices/image_convergence_map.pt").to(args.device)
 
     # --- PSF kernel setup ---------------------------------------------------
     # If --psf-type=fits, the FITS PSF is loaded, optionally center-cropped,

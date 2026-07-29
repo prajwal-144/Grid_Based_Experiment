@@ -1,0 +1,160 @@
+{
+  "configuration": {
+    "mapping_dir": "raw_matrices_old/0.168/",
+    "resolution": 0.168,
+    "theta_e": 0.75,
+    "psf_path": "C:/Users/upraj/Prajwal/GSOC/DeepLense/Data/psf/psf/HSC_PSF/psf-calexp-pdr2_wide-HSC-I-15828-1,2-239.38410-42.10650.fits",
+    "psf_source_pixscale_arcsec": 0.168,
+    "image_shape": 64,
+    "magnification": 2,
+    "output_dir": "operator_tests_0168",
+    "cuda": true,
+    "hr_scale": 0.084,
+    "hr_shape": 128
+  },
+  "tests": {
+    "stagewise_constant": {
+      "input": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "sum": 14400.0
+      },
+      "to_log": {
+        "mean": 0.7461743950843811,
+        "std": 0.9947595000267029,
+        "min": 0.018711665645241737,
+        "max": 7.172990798950195,
+        "sum": 10744.9111328125
+      },
+      "sis": {
+        "mean": 0.5370151996612549,
+        "std": 0.8486815094947815,
+        "min": 5.987749773339601e-06,
+        "max": 6.276569843292236,
+        "sum": 7733.0185546875
+      },
+      "from_log": {
+        "mean": 0.7551623582839966,
+        "std": 0.1657095104455948,
+        "min": 0.00031999772181734443,
+        "max": 0.8934229016304016,
+        "sum": 10874.337890625
+      }
+    },
+    "stagewise_constant_row_normalized": {
+      "input": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "sum": 14400.0
+      },
+      "to_log": {
+        "mean": 1.0,
+        "std": 5.341433961802977e-08,
+        "min": 0.9999997615814209,
+        "max": 1.000000238418579,
+        "sum": 14400.0
+      },
+      "sis": {
+        "mean": 1.0,
+        "std": 6.988078382619278e-08,
+        "min": 0.9999997615814209,
+        "max": 1.000000238418579,
+        "sum": 14400.0
+      },
+      "from_log": {
+        "mean": 1.0,
+        "std": 8.451406330323152e-08,
+        "min": 0.9999997019767761,
+        "max": 1.000000238418579,
+        "sum": 14400.0
+      }
+    },
+    "support": {
+      "backward": {
+        "zero_rows": 0,
+        "zero_columns": 836,
+        "row_sum_minmax": [
+          0.04402642324566841,
+          0.8998923301696777
+        ],
+        "column_sum_minmax": [
+          0.0,
+          1.00009024143219
+        ]
+      },
+      "to_log": {
+        "zero_rows": 0,
+        "zero_columns": 0,
+        "row_sum_minmax": [
+          0.018711665645241737,
+          10.735995292663574
+        ],
+        "column_sum_minmax": [
+          0.999998927116394,
+          1.0000016689300537
+        ]
+      },
+      "forward_from_log": {
+        "zero_rows": 0,
+        "zero_columns": 996,
+        "row_sum_minmax": [
+          0.0003200008359272033,
+          1.479127287864685
+        ],
+        "column_sum_minmax": [
+          0.0,
+          1.0000910758972168
+        ]
+      },
+      "from_log": {
+        "zero_rows": 0,
+        "zero_columns": 0,
+        "row_sum_minmax": [
+          0.09313391894102097,
+          40.37530517578125
+        ],
+        "column_sum_minmax": [
+          0.999998927116394,
+          1.000001311302185
+        ]
+      }
+    },
+    "sis_reference": {
+      "expected_radius_pixels": 8.928571428571429,
+      "sparse_peaks": [
+        12,
+        5
+      ],
+      "row_normalized_sparse_peaks": [
+        7,
+        4,
+        1
+      ],
+      "analytic_peaks": [
+        8
+      ],
+      "sparse_vs_analytic_relative_mse": 0.781706690788269,
+      "row_normalized_vs_analytic_relative_mse": 0.08379512280225754
+    },
+    "psf_sampling": {
+      "raw_shape": [
+        41,
+        41
+      ],
+      "resampled_shape": [
+        81,
+        81
+      ],
+      "expected_linear_scale_factor": 2.0,
+      "raw_sum": 1.0,
+      "resampled_sum": 1.0,
+      "center_delta_output_sum": 1.0,
+      "edge_delta_output_sum": 0.9373317956924438,
+      "kernel_larger_than_hr_image": false
+    }
+  }
+}
