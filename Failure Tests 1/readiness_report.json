@@ -1,0 +1,119 @@
+{
+  "psf": {
+    "kernel_shape": [
+      135,
+      135
+    ],
+    "kernel_sum": 1.0,
+    "resampling_factor": 3.3267326732673266,
+    "center_delta_sum": 0.9999468326568604,
+    "edge_delta_sum": 0.6129242777824402,
+    "kernel_larger_than_image": true,
+    "passed": false
+  },
+  "prior_reports": {
+    "surface_brightness_report.json": {
+      "raw": {
+        "input": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "to_log": {
+          "mean": 0.7868070006370544,
+          "std": 0.8781676888465881,
+          "min": 0.03715218976140022,
+          "max": 5.84672212600708
+        },
+        "sis": {
+          "mean": 0.4479345381259918,
+          "std": 0.678491473197937,
+          "min": 8.579118002671748e-06,
+          "max": 4.668134689331055
+        },
+        "from_log": {
+          "mean": 0.6119271516799927,
+          "std": 0.2057938575744629,
+          "min": 0.0002309175906702876,
+          "max": 0.8244035243988037
+        },
+        "passed": false
+      },
+      "row_normalised_diagnostic": {
+        "input": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "to_log": {
+          "mean": 1.0,
+          "std": 4.3300424579229e-08,
+          "min": 0.9999997615814209,
+          "max": 1.000000238418579
+        },
+        "sis": {
+          "mean": 1.0,
+          "std": 5.4662063320165544e-08,
+          "min": 0.9999997615814209,
+          "max": 1.000000238418579
+        },
+        "from_log": {
+          "mean": 1.0,
+          "std": 7.475303931414601e-08,
+          "min": 0.9999997019767761,
+          "max": 1.000000238418579
+        },
+        "passed": true
+      }
+    },
+    "analytic_sis_report.json": {
+      "expected_radius_pixels": 14.85148514851485,
+      "sparse_peaks": [
+        16,
+        1,
+        9,
+        6,
+        4
+      ],
+      "analytic_peaks": [
+        14
+      ],
+      "relative_mse": 0.9254765510559082,
+      "passed": false
+    },
+    "gaussian_width_report.json": {
+      "results": [
+        {
+          "sigma": 1.0,
+          "sparse_peak": 15,
+          "expected_surface_brightness_peak": 14.85148514851485,
+          "flux_transport_prediction": 15.85148514851485
+        },
+        {
+          "sigma": 2.0,
+          "sparse_peak": 16,
+          "expected_surface_brightness_peak": 14.85148514851485,
+          "flux_transport_prediction": 16.85148514851485
+        },
+        {
+          "sigma": 4.0,
+          "sparse_peak": 18,
+          "expected_surface_brightness_peak": 14.85148514851485,
+          "flux_transport_prediction": 18.85148514851485
+        },
+        {
+          "sigma": 6.0,
+          "sparse_peak": 20,
+          "expected_surface_brightness_peak": 14.85148514851485,
+          "flux_transport_prediction": 20.85148514851485
+        }
+      ],
+      "peak_drift_pixels": 5,
+      "passed": false
+    }
+  },
+  "ready_for_training": false,
+  "decision": "FAIL: do not train; fix operator or PSF boundary handling first"
+}

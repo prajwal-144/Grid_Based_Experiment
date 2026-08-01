@@ -1,0 +1,25 @@
+{
+  "expected_radius_pixels": 59.4059405940594,
+  "constant_mean": 1.0,
+  "constant_std": 6.859828260985523e-09,
+  "width_results": [
+    {
+      "sigma": 1,
+      "peak_radius": 59
+    },
+    {
+      "sigma": 2,
+      "peak_radius": 59
+    },
+    {
+      "sigma": 4,
+      "peak_radius": 59
+    },
+    {
+      "sigma": 6,
+      "peak_radius": 59
+    }
+  ],
+  "peak_drift_pixels": 0,
+  "passed": true
+}

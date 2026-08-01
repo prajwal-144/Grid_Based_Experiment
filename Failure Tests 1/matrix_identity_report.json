@@ -1,0 +1,126 @@
+{
+  "grid_matrices": {
+    "sparse_grid_fracs_euclid_backward.pt": {
+      "path": "grid_matrices\\sparse_grid_fracs_euclid_backward.pt",
+      "shape": [
+        4096,
+        4096
+      ],
+      "sha256": "2c972019c94dec0d7cf89cf42d2bb8559e3ec5158e311dd6e67e743629b2cca0",
+      "nnz": 13840,
+      "zero_rows": 0,
+      "zero_columns": 1388
+    },
+    "scatter_to_log_128.pt": {
+      "path": "grid_matrices\\scatter_to_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "1374a2d1256c2943d2a76071862db1d1745e7fbce6b5d7c7593385398d624727",
+      "nnz": 64516,
+      "zero_rows": 0,
+      "zero_columns": 0
+    },
+    "forward_from_log_128.pt": {
+      "path": "grid_matrices\\forward_from_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "9a64e6a672792c6df7f51f2f9811620b70728d3c055a4e4aa67a9ccff29ac67b",
+      "nnz": 65852,
+      "zero_rows": 0,
+      "zero_columns": 2324
+    },
+    "scatter_from_log_128.pt": {
+      "path": "grid_matrices\\scatter_from_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "364ecaaaaebb3711841859c52309af35d801ecfdf2361dd3684654f31fe3aee3",
+      "nnz": 64516,
+      "zero_rows": 0,
+      "zero_columns": 0
+    },
+    "source_convergence_map.pt": {
+      "path": "grid_matrices\\source_convergence_map.pt",
+      "shape": [
+        64,
+        64
+      ],
+      "sha256": "43bf66dbf885bcc7ecd982371239fa8be056300fa93eff997973a0f62efbdda9"
+    },
+    "image_convergence_map.pt": {
+      "path": "grid_matrices\\image_convergence_map.pt",
+      "shape": [
+        64,
+        64
+      ],
+      "sha256": "1430ca43c49b1ffba1bc3699873e5330efebd0320b2b8e9f544845e282055889"
+    }
+  },
+  "matrices_orig": {
+    "sparse_grid_fracs_euclid_backward.pt": {
+      "path": "matrices_orig\\sparse_grid_fracs_euclid_backward.pt",
+      "shape": [
+        4096,
+        4096
+      ],
+      "sha256": "9efb48b20d2b7b8f6287723707373c245692389ea7957f5c9f09e23a3a75090e",
+      "nnz": 13135,
+      "zero_rows": 1388,
+      "zero_columns": 0
+    },
+    "scatter_to_log_128.pt": {
+      "path": "matrices_orig\\scatter_to_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "a40b69ad44586542dbd772e070200831997f01fb6087100d01c00ef09eca722c",
+      "nnz": 64516,
+      "zero_rows": 0,
+      "zero_columns": 0
+    },
+    "forward_from_log_128.pt": {
+      "path": "matrices_orig\\forward_from_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "de6cf2e77750bc893b8f80400ebdc2f06f6123f22b1e3b2253508e7d592ff36c",
+      "nnz": 65852,
+      "zero_rows": 0,
+      "zero_columns": 2324
+    },
+    "scatter_from_log_128.pt": {
+      "path": "matrices_orig\\scatter_from_log_128.pt",
+      "shape": [
+        16384,
+        16384
+      ],
+      "sha256": "9ed76664d407ad9df5836fa460f070ac94d6788edee63c33f0afad8920f74fc9",
+      "nnz": 64516,
+      "zero_rows": 0,
+      "zero_columns": 0
+    },
+    "source_convergence_map.pt": {
+      "path": "matrices_orig\\source_convergence_map.pt",
+      "shape": [
+        64,
+        64
+      ],
+      "sha256": "c93a1621ba3943a13c005758953481ce1166d6cd99a07a4bb7e45db92bddc5e3"
+    },
+    "image_convergence_map.pt": {
+      "path": "matrices_orig\\image_convergence_map.pt",
+      "shape": [
+        64,
+        64
+      ],
+      "sha256": "87cbf8dd374286034fd6c21604d37088de6c561bb6a2b912e8f3c4ca06531775"
+    }
+  }
+}

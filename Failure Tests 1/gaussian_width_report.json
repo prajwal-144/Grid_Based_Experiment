@@ -1,0 +1,30 @@
+{
+  "results": [
+    {
+      "sigma": 1.0,
+      "sparse_peak": 15,
+      "expected_surface_brightness_peak": 14.85148514851485,
+      "flux_transport_prediction": 15.85148514851485
+    },
+    {
+      "sigma": 2.0,
+      "sparse_peak": 16,
+      "expected_surface_brightness_peak": 14.85148514851485,
+      "flux_transport_prediction": 16.85148514851485
+    },
+    {
+      "sigma": 4.0,
+      "sparse_peak": 18,
+      "expected_surface_brightness_peak": 14.85148514851485,
+      "flux_transport_prediction": 18.85148514851485
+    },
+    {
+      "sigma": 6.0,
+      "sparse_peak": 20,
+      "expected_surface_brightness_peak": 14.85148514851485,
+      "flux_transport_prediction": 20.85148514851485
+    }
+  ],
+  "peak_drift_pixels": 5,
+  "passed": false
+}

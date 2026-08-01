@@ -1,0 +1,15 @@
+{
+  "expected_radius_pixels": 14.85148514851485,
+  "sparse_peaks": [
+    16,
+    1,
+    9,
+    6,
+    4
+  ],
+  "analytic_peaks": [
+    14
+  ],
+  "relative_mse": 0.9254765510559082,
+  "passed": false
+}
