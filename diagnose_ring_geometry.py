@@ -76,8 +76,8 @@ BUNDLE_NAMES = {
     "forward_from_log": "forward_from_log_128_bundle.pt",
     "from_log": "scatter_from_log_128_bundle.pt",
 }
-CANDIDATE_DIRS = ["matrices_orig", "grid_matrices", "matrices_new", "mappings",
-                  "raw_matrices_old/0.168", "matrices_v2"]
+CANDIDATE_DIRS = ["matrices_orig", "grid_matrices",
+                  "raw_matrices_old/0.168", "matrices_v2", "matrices_v3"]
 
 
 # ---------------------------------------------------------------------------
