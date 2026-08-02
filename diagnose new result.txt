@@ -1,0 +1,103 @@
+==============================================================================
+[1] MEASURED DEFLECTION AMPLITUDE AND SIGN
+==============================================================================
+Recovered directly from operator columns -- no labels trusted.
+Reference: theta_E=0.75" gives 0.75/0.168 = 4.46 px, 0.75/0.101 = 7.43 px.
+
+  --- matrices_orig ---
+  backward (LR->source)
+      alpha_r        :    7.307 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.062 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    1.857 px      NO fold -- inner region does not behave like an SIS
+  forward chain (source->image)
+      alpha_r        :   13.432 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.202 px      (small => clean radial map)
+      column coverage:    69.5%       (fraction of inputs with mass)
+
+  --- matrices_v2 ---
+  backward (LR->source)
+      alpha_r        :    8.139 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.027 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    0.043 px      fold confirmed (genuine SIS two-image map)
+  forward chain (source->image)
+      alpha_r        :   16.279 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.013 px      (small => clean radial map)
+      column coverage:    61.5%       (fraction of inputs with mass)
+
+------------------------------------------------------------------------------
+  INTERPRETATION
+  The pipeline composes backward then forward. It is self-consistent
+  ONLY if the two carry OPPOSITE signs (one +alpha, one -alpha), so the
+  round trip is the identity. Same sign on both means the deflection is
+  applied twice in the same direction.
+  Note raw_matrices_old/create_backward_grid.ipynb calls backward_lensing
+  (theta + alpha) while create_backward_grid.ipynb calls forward_lensing
+  (theta - alpha). Both forward notebooks call forward_lensing. If the
+  measurement above shows the same sign for backward and forward in a
+  directory, that directory's backward matrix has the flipped convention.
+------------------------------------------------------------------------------
+
+==============================================================================
+[2] ROUND-TRIP TEST -- matrices_v2
+==============================================================================
+    ring in  -> source   -> image   comment
+       4.00       3.84 12.22, 13.72   radius moved by +9.72 px
+       6.00       1.86 9.23, 10.73   radius moved by +4.73 px
+       8.00       2.44 9.23, 10.73   radius moved by +2.73 px
+      10.00       1.75 10.23, 11.72   radius moved by +1.72 px
+      13.00       4.80 11.72, 13.22   round trip OK
+      16.00       7.72 14.72, 16.21   round trip OK
+
+  A correct operator pair returns the ring to its input radius and
+  produces exactly ONE ring. Two rings here means the geometry alone
+  creates the artefact -- the network and the mu loss are not to blame.
+
+==============================================================================
+[6] END-TO-END -- C:\Users\upraj\Prajwal\GSOC\DeepLense\Grid_Based_Experiment\outputs_corrected\sis_v2\checkpoints\best.pt
+==============================================================================
+  checkpoint mapping_dir = 'matrices_v2'   resolution = 0.168   mu_weight = 0.0
+  Using the checkpoint's OWN mapping_dir. Loading a different directory
+  here swaps the operator under frozen weights and is not a fair test.
+
+  zero MSE 0.008895   model MSE 0.000856   skill 0.9038
+
+  stage                    rings (LR px)            donut?
+  LR observation           7.42, 10.39              YES
+  LR source (backward)     1.48, 4.45               YES
+  HR source (network)      1.75, 3.24               no
+  intrinsic (forward)      10.23, 11.72             no
+  prediction               7.42, 10.39              YES
+
+  Read this as a chain. If 'LR source (backward)' is already a donut,
+  the backward operator is the cause and nothing downstream can undo it.
+  If it is compact and 'prediction' has two rings, the forward chain is.
+  If both are clean but the HR source is hollow, the mu prior is.
+
+[4] THE MAGNIFICATION REGULARIZER IS A DONUT PRIOR
+==============================================================================
+train_all_wo_mapping.magnification_regularizer computes
+    (weight * laplacian(source)^2).sum() / weight.sum(),  weight = (1-info)^2
+info comes from |mu| = |1/(1 - theta_E/r)| compressed to [0,1].
+For an SIS, |mu| -> 0 at r=0, peaks at r=theta_E, -> 1 far out. So info
+is an ANNULUS, and (1-info)^2 is LARGE at the source centre and ZERO on
+the ring. The penalty therefore forbids curvature exactly where a
+compact source lives, and permits it exactly on a ring.
+
+  --- resolution 0.168 arcsec/px   critical radius 8.14 px ---
+      info(source) range      : 0.000 .. 0.839
+      weight at r=0           : 0.026
+      info peaks at r         : 0.49 px
+      weight there            : 0.026
+      centre/ring weight ratio: 1.0x
+      => curvature at the centre is penalised 1x harder than on the ring
+
+  This term is scaled by --mu-weight. Going 0.001 -> 0.01 multiplies
+  the donut prior by ten. Its share of the total loss stays small, but
+  the image-fidelity term barely constrains the source interior (that
+  is the null space of a fixed-SIS inversion), so a small term can still
+  dictate what the source looks like there.
+  history.json corroborates this: in mag_full_latest_101 the mu term
+  falls 0.775 -> 0.11 (7x) once the ramp engages, while the source loss
+  RISES 0.033 -> 0.037.

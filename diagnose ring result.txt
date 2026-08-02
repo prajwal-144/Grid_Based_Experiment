@@ -1,0 +1,239 @@
+==============================================================================
+[0] MAPPING DIRECTORY FINGERPRINTS
+==============================================================================
+Purpose: grid_matrices may have been overwritten in place between the
+mag_full and mag_full_latest_101 runs. If so, the notebook cells that
+load matrices_orig vs grid_matrices are NOT 'old vs new matrices' --
+one of them is the operator the checkpoint was trained with and the
+other is a foreign operator hot-swapped under frozen weights.
+
+  matrices_orig            modified 2026-05-08 13:27
+      backward           52ef86043c7c  shape=(4096, 4096) nnz=13135
+      to_log             bb26a1b4e1f4  shape=(16384, 16384) nnz=64516
+      forward_from_log   2c9cd461a938  shape=(16384, 16384) nnz=65852
+      from_log           9d6380374dde  shape=(16384, 16384) nnz=64516
+
+  grid_matrices            modified 2026-07-26 11:12
+      backward           29b0065fa4c5  shape=(4096, 4096) nnz=13840
+      to_log             383df697287a  shape=(16384, 16384) nnz=64516
+      forward_from_log   045c4efd597a  shape=(16384, 16384) nnz=65852
+      from_log           c7d5cecfc698  shape=(16384, 16384) nnz=64516
+
+  matrices_new             modified 2026-07-18 12:13
+      backward           b9fe9dd11aa6  shape=(4096, 4096) nnz=15006
+      to_log             63e790b0a51b  shape=(16384, 16384) nnz=64516
+      forward_from_log   46d67be33673  shape=(16384, 16384) nnz=119287
+      from_log           f3589b231e47  shape=(16384, 16384) nnz=64516
+
+  mappings                 modified 2026-07-18 15:17
+      backward           b9fe9dd11aa6  shape=(4096, 4096) nnz=15006  meta: theta_E=0.75 lr=0.168 hr=0.084
+      to_log             63e790b0a51b  shape=(16384, 16384) nnz=64516  meta: theta_E=0.75 lr=0.168 hr=0.084
+      forward_from_log   46d67be33673  shape=(16384, 16384) nnz=119287  meta: theta_E=0.75 lr=0.168 hr=0.084
+      from_log           f3589b231e47  shape=(16384, 16384) nnz=64516  meta: theta_E=0.75 lr=0.168 hr=0.084
+
+  raw_matrices_old/0.168   modified 2026-07-25 07:26
+      backward           951a41c87612  shape=(4096, 4096) nnz=14740
+      to_log             38c3eed0708a  shape=(16384, 16384) nnz=64516
+      forward_from_log   8b76379a53c2  shape=(16384, 16384) nnz=67432
+      from_log           1b5a65089c8a  shape=(16384, 16384) nnz=64516
+
+  Identity between directories (backward matrix):
+      matrices_orig          vs grid_matrices          different
+      matrices_orig          vs matrices_new           different
+      matrices_orig          vs mappings               different
+      matrices_orig          vs raw_matrices_old/0.168 different
+      grid_matrices          vs matrices_new           different
+      grid_matrices          vs mappings               different
+      grid_matrices          vs raw_matrices_old/0.168 different
+      matrices_new           vs mappings               IDENTICAL
+      matrices_new           vs raw_matrices_old/0.168 different
+      mappings               vs raw_matrices_old/0.168 different
+
+==============================================================================
+[1] MEASURED DEFLECTION AMPLITUDE AND SIGN
+==============================================================================
+Recovered directly from operator columns -- no labels trusted.
+Reference: theta_E=0.75" gives 0.75/0.168 = 4.46 px, 0.75/0.101 = 7.43 px.
+
+  --- matrices_orig ---
+  backward (LR->source)
+      alpha_r        :    7.307 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.062 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    1.857 px      NO fold -- inner region does not behave like an SIS
+  forward chain (source->image)
+      alpha_r        :   13.432 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.202 px      (small => clean radial map)
+      column coverage:    69.5%       (fraction of inputs with mass)
+
+  --- grid_matrices ---
+  backward (LR->source)
+      alpha_r        :    7.421 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.017 px      (small => clean radial map)
+      column coverage:    66.1%       (fraction of inputs with mass)
+  forward chain (source->image)
+      alpha_r        :   14.861 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.164 px      (small => clean radial map)
+      column coverage:    68.2%       (fraction of inputs with mass)
+
+  --- matrices_new ---
+  backward (LR->source)
+      alpha_r        :    4.462 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.012 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    0.113 px      fold confirmed (genuine SIS two-image map)
+  forward chain (source->image)
+      alpha_r        :    8.852 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.459 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    0.070 px      fold confirmed (genuine SIS two-image map)
+
+  --- mappings ---
+  backward (LR->source)
+      alpha_r        :    4.462 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.012 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    0.113 px      fold confirmed (genuine SIS two-image map)
+  forward chain (source->image)
+      alpha_r        :    8.852 px      sign: -alpha  (INWARD push, theta -> theta - alpha)
+      radial scatter :    0.459 px      (small => clean radial map)
+      column coverage:   100.0%       (fraction of inputs with mass)
+      inner-fold err :    0.070 px      fold confirmed (genuine SIS two-image map)
+
+  --- raw_matrices_old/0.168 ---
+  backward (LR->source)
+      alpha_r        :    4.462 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.007 px      (small => clean radial map)
+      column coverage:    79.6%       (fraction of inputs with mass)
+  forward chain (source->image)
+      alpha_r        :    8.955 px      sign: +alpha  (OUTWARD push, theta -> theta + alpha)
+      radial scatter :    0.195 px      (small => clean radial map)
+      column coverage:    82.9%       (fraction of inputs with mass)
+
+------------------------------------------------------------------------------
+  INTERPRETATION
+  The pipeline composes backward then forward. It is self-consistent
+  ONLY if the two carry OPPOSITE signs (one +alpha, one -alpha), so the
+  round trip is the identity. Same sign on both means the deflection is
+  applied twice in the same direction.
+  Note raw_matrices_old/create_backward_grid.ipynb calls backward_lensing
+  (theta + alpha) while create_backward_grid.ipynb calls forward_lensing
+  (theta - alpha). Both forward notebooks call forward_lensing. If the
+  measurement above shows the same sign for backward and forward in a
+  directory, that directory's backward matrix has the flipped convention.
+------------------------------------------------------------------------------
+
+==============================================================================
+[2] ROUND-TRIP TEST -- grid_matrices
+==============================================================================
+    ring in  -> source   -> image   comment
+       4.00      11.32 18.71, 20.21   radius moved by +16.21 px
+       6.00      13.36 20.70, 22.20   radius moved by +16.20 px
+       8.00      15.37 22.70, 24.20   radius moved by +16.20 px
+      10.00      17.35 24.70, 26.19   radius moved by +16.19 px
+      13.00      20.39 27.69, 29.19   radius moved by +16.19 px
+      16.00      23.37 30.68, 32.18   radius moved by +16.18 px
+
+  A correct operator pair returns the ring to its input radius and
+  produces exactly ONE ring. Two rings here means the geometry alone
+  creates the artefact -- the network and the mu loss are not to blame.
+
+==============================================================================
+[3] EINSTEIN-RING RADIUS OF THE ACTUAL DATA
+==============================================================================
+  images used                 : 60  (64x64)
+  per-image ring radius       : median 8.29 px, IQR 6.38-10.93 px
+  stacked-image ring radius   : 8.14 px
+
+  Required alpha_r for the operator to collapse this ring to a point:
+      alpha_r  = 8.14 px
+      theta_E  = 1.3681 arcsec   if you declare 0.168 arcsec/px
+      theta_E  = 0.8225 arcsec   if you declare 0.101 arcsec/px
+
+  Compare against what the matrices actually encode (section 1). Only
+  the RATIO theta_E / pixel_scale reaches the operator -- the matrices
+  are built in pixel units, so declaring a different pixel scale in
+  --resolution does not move the ring.
+  Caveat: a spread in per-image radii means the dataset does NOT have a
+  single Einstein radius, in which case one fixed-SIS operator cannot
+  be right for every image and the residual annulus is irreducible.
+
+
+==============================================================================
+[4] THE MAGNIFICATION REGULARIZER IS A DONUT PRIOR
+==============================================================================
+train_all_wo_mapping.magnification_regularizer computes
+    (weight * laplacian(source)^2).sum() / weight.sum(),  weight = (1-info)^2
+info comes from |mu| = |1/(1 - theta_E/r)| compressed to [0,1].
+For an SIS, |mu| -> 0 at r=0, peaks at r=theta_E, -> 1 far out. So info
+is an ANNULUS, and (1-info)^2 is LARGE at the source centre and ZERO on
+the ring. The penalty therefore forbids curvature exactly where a
+compact source lives, and permits it exactly on a ring.
+
+  --- resolution 0.168 arcsec/px   critical radius 4.46 px ---
+      info(source) range      : 0.000 .. 0.960
+      weight at r=0           : 1.000
+      info peaks at r         : 11.38 px
+      weight there            : 0.103
+      centre/ring weight ratio: 9.7x
+      => curvature at the centre is penalised 10x harder than on the ring
+
+  --- resolution 0.101 arcsec/px   critical radius 7.43 px ---
+      info(source) range      : 0.000 .. 0.979
+      weight at r=0           : 1.000
+      info peaks at r         : 14.35 px
+      weight there            : 0.028
+      centre/ring weight ratio: 35.2x
+      => curvature at the centre is penalised 35x harder than on the ring
+
+  This term is scaled by --mu-weight. Going 0.001 -> 0.01 multiplies
+  the donut prior by ten. Its share of the total loss stays small, but
+  the image-fidelity term barely constrains the source interior (that
+  is the null space of a fixed-SIS inversion), so a small term can still
+  dictate what the source looks like there.
+  history.json corroborates this: in mag_full_latest_101 the mu term
+  falls 0.775 -> 0.11 (7x) once the ramp engages, while the source loss
+  RISES 0.033 -> 0.037.
+
+
+==============================================================================
+[5] DID THE 0.168 -> 0.101 SWITCH CHANGE THE PSF?
+==============================================================================
+psf.resample_kernel_to_pixscale uses
+    scale_factor = source_pixscale_arcsec / target_pixscale_arcsec
+    0.168 / 0.084 = 2.000000
+    0.101 / 0.0505 = 2.000000
+
+  Both runs pass --psf-source-pixscale-arcsec equal to --resolution, and
+  target_resolution = resolution / 2. The ratio is 2.0 in both cases, so
+  the resampled kernel is IDENTICAL. Switching to Euclid pixel scales
+  did not change the PSF by a single pixel.
+
+  Separately: the FITS file is an HSC PDR2 PSF, natively 0.168 arcsec/px.
+  Declaring --psf-source-pixscale-arcsec 0.101 asserts a pixel scale the
+  stamp does not have. That is wrong on its own terms, but because only
+  the ratio is used it happens to cancel here. Fix it anyway, after the
+  geometry: a PSF cannot move flux from the centre out to an annulus, so
+  it is not what makes the donut.
+
+
+==============================================================================
+[6] END-TO-END -- C:\Users\upraj\Prajwal\GSOC\DeepLense\Grid_Based_Experiment\outputs_corrected\mag_full_latest_101\checkpoints\best.pt
+==============================================================================
+  checkpoint mapping_dir = 'grid_matrices'   resolution = 0.101   mu_weight = 0.01
+  Using the checkpoint's OWN mapping_dir. Loading a different directory
+  here swaps the operator under frozen weights and is not a fair test.
+
+  zero MSE 0.008895   model MSE 0.004824   skill 0.4576
+
+  stage                    rings (LR px)            donut?
+  LR observation           7.42, 10.39              YES
+  LR source (backward)     17.32, 20.29             YES
+  HR source (network)      2.25, 3.74               no
+  intrinsic (forward)      10.23, 24.70             no
+  prediction               10.39, 25.24             YES
+
+  Read this as a chain. If 'LR source (backward)' is already a donut,
+  the backward operator is the cause and nothing downstream can undo it.
+  If it is compact and 'prediction' has two rings, the forward chain is.
+  If both are clean but the HR source is hollow, the mu prior is.
