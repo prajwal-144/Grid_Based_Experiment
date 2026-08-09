@@ -67,6 +67,32 @@ def laplacian(x):
     return F.conv2d(x, weight, padding=1, groups=x.shape[1])
 
 
+def total_variation(x):
+    """Isotropic total variation, per pixel.
+
+    WHY THIS IS SEPARATE FROM magnification_regularizer
+    ---------------------------------------------------
+    The magnification term weights curvature by (1 - info)^2. Once the operator
+    is correct, `info` peaks at the SOURCE CENTRE, so that weight falls to ~0.03
+    there. It therefore smooths the outskirts and deliberately leaves the centre
+    free -- which is right physically, and useless against central spikes.
+
+    With --mu-weight 0 there was no source prior at all, and the inversion is
+    ill-posed, so the network settled on a sum of delta functions: the HR source
+    panels showed isolated dots, and each spike re-lensed into its own image
+    pair (evaluate_sis reported ring_pred_n = 4 against 1-2 rings in the data).
+
+    TV is the uniform prior that fixes that. It is also the correct prior for
+    this data: the manifest records light_profile = SERSIC, so the true sources
+    really are smooth. TV is preferred over a Laplacian penalty because it does
+    not punish genuine edges, which matters if real galaxy morphology is
+    substituted for the Sersic sources later.
+    """
+    dx = (x[..., :, 1:] - x[..., :, :-1]).abs()
+    dy = (x[..., 1:, :] - x[..., :-1, :]).abs()
+    return dx.mean() + dy.mean()
+
+
 def magnification_regularizer(source, information):
     """Suppress unsupported curvature only where SIS information is low."""
     info = F.interpolate(information, size=source.shape[-2:], mode="bilinear", align_corners=False)
@@ -105,8 +131,25 @@ def parse_args():
     p.add_argument("--val-samples-per-class", type=int, default=2000)
     p.add_argument("--dataset-fraction", type=float, default=1.0)
     p.add_argument("--arc-threshold-fraction", type=float, default=0.08)
-    p.add_argument("--arc-boost", type=float, default=20.0)
-    p.add_argument("--background-weight", type=float, default=0.05)
+    # DEFAULTS SOFTENED. Previously 20.0 / 0.05, a 401:1 weight ratio between
+    # arc and background pixels. The mask is built from the TARGET, so spurious
+    # flux the model puts where the data is dark was charged 400x less than the
+    # same error on the arc -- which is why the extra rings survived training.
+    # 5.0 / 0.2 is 26:1: still arc-focused, but spurious structure now costs
+    # something. Old runs are unaffected; their args.json records what they used.
+    p.add_argument("--arc-boost", type=float, default=5.0)
+    p.add_argument("--background-weight", type=float, default=0.2)
+    p.add_argument("--tv-weight", type=float, default=0.0,
+                   help="uniform total-variation prior on the HR source. This is "
+                        "the knob that removes spiky sources; --mu-weight cannot, "
+                        "because its weight vanishes at the source centre. "
+                        "CALIBRATE IT, do not guess: total_variation() returns a "
+                        "per-pixel mean, so on a 128x128 grid holding one compact "
+                        "source it lands around 1e-3 while image_loss is around "
+                        "3e-2. Run one epoch, read 'tv' and 'image' from "
+                        "history.json, and pick tv_weight so that "
+                        "tv_weight*tv is 5-20%% of image. That is O(1), not "
+                        "O(1e-3). Starting bracket: 0 / 0.3 / 1 / 3 / 10.")
     p.add_argument("--source-loss-weight", type=float, default=0.2)
     p.add_argument("--mu-weight", type=float, default=0.001)
     p.add_argument("--physics-delay-epochs", type=int, default=20)
@@ -153,7 +196,7 @@ def make_loader(args, split, shuffle):
 
 def run_epoch(model, loader, optimizer, training, epoch, args, lens, mappings, backward_avg, psf, info_hr):
     model.train(training)
-    totals = {k: 0.0 for k in ["total", "image", "source", "mu", "raw_mse", "zero_mse", "skill"]}
+    totals = {k: 0.0 for k in ["total", "image", "source", "mu", "tv", "raw_mse", "zero_mse", "skill"]}
     batches = 0
     context = torch.enable_grad() if training else torch.no_grad()
     with context:
@@ -170,8 +213,13 @@ def run_epoch(model, loader, optimizer, training, epoch, args, lens, mappings, b
             source_weight = (source_lr > 0).to(source_lr.dtype) + 0.05
             source_loss = normalized_wmse(source_down, source_lr, source_weight)
             mu_loss = magnification_regularizer(source_hr, info_hr)
+            tv_loss = total_variation(source_hr)
             ramp = physics_scale(epoch, args.physics_delay_epochs, args.physics_ramp_epochs)
-            total = image_loss + args.source_loss_weight * source_loss + ramp * args.mu_weight * mu_loss
+            # TV is NOT ramped: it is a prior on what a source looks like, true
+            # from epoch 0, not a physics term that needs the model warmed up.
+            total = (image_loss + args.source_loss_weight * source_loss
+                     + args.tv_weight * tv_loss
+                     + ramp * args.mu_weight * mu_loss)
 
             if training:
                 optimizer.zero_grad(set_to_none=True)
@@ -182,7 +230,7 @@ def run_epoch(model, loader, optimizer, training, epoch, args, lens, mappings, b
             raw_mse = F.mse_loss(pred_lr, lr_image)
             zero_mse = lr_image.square().mean()
             skill = 1.0 - raw_mse / zero_mse.clamp_min(EPS)
-            for key, value in {"total": total, "image": image_loss, "source": source_loss, "mu": mu_loss, "raw_mse": raw_mse, "zero_mse": zero_mse, "skill": skill}.items():
+            for key, value in {"total": total, "image": image_loss, "source": source_loss, "mu": mu_loss, "tv": tv_loss, "raw_mse": raw_mse, "zero_mse": zero_mse, "skill": skill}.items():
                 totals[key] += float(value.detach())
             batches += 1
     return {key: value / max(batches, 1) for key, value in totals.items()}
